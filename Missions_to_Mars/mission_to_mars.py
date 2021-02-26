@@ -18,14 +18,12 @@ def scrape_mars():
     results = soup.find('li',class_='slide')
 
     # scraping the title
-    # article_title = results.find('div',class_='content_title').find("a").text
     article_title = results.find('div',class_='content_title').find("a").get_text()
 
     # scrape p text
     p_text = results.find('div', class_='article_teaser_body').text
 
     url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
-    # browser.quit()
     browser.visit(url)
 
     browser.links.find_by_partial_href('/images').click()
@@ -35,7 +33,6 @@ def scrape_mars():
     featured_img = soup.find('img',class_='BaseImage')['src']
 
     url = 'https://space-facts.com/mars/'
-    # browser.quit()
     browser.visit(url)
 
     mars_facts = pd.read_html(url)
@@ -49,7 +46,6 @@ def scrape_mars():
     mars_html_string
 
     url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
-    # browser.quit()
     browser.visit(url)
 
     soup = BeautifulSoup(browser.html,'html.parser')
