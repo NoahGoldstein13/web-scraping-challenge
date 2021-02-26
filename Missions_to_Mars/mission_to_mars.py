@@ -1,18 +1,9 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[7]:
-
-
 from splinter import Browser
 from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
 import requests
 import pandas as pd
 import time
-
-
-# In[2]:
 
 def scrape_mars():
 
@@ -21,27 +12,30 @@ def scrape_mars():
 
     url = 'https://mars.nasa.gov/news/'
     browser.visit(url)
-
+    time.sleep(2)
     soup = BeautifulSoup(browser.html, 'html.parser')
 
     results = soup.find('li',class_='slide')
 
     # scraping the title
-    article_title = results.find('div',class_='content_title').text
+    # article_title = results.find('div',class_='content_title').find("a").text
+    article_title = results.find('div',class_='content_title').find("a").get_text()
 
     # scrape p text
     p_text = results.find('div', class_='article_teaser_body').text
 
     url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
+    # browser.quit()
     browser.visit(url)
 
     browser.links.find_by_partial_href('/images').click()
 
     soup = BeautifulSoup(browser.html,'html.parser')
 
-    featured_img = soup.find('a',class_='BaseButton')['href']
+    featured_img = soup.find('img',class_='BaseImage')['src']
 
     url = 'https://space-facts.com/mars/'
+    # browser.quit()
     browser.visit(url)
 
     mars_facts = pd.read_html(url)
@@ -51,10 +45,11 @@ def scrape_mars():
     mars_df.columns = ['attributes','content']
     mars_df
 
-    mars_html_string = mars_df.to_html()
+    mars_html_string = mars_df.to_html(index=False, classes="table table-striped")
     mars_html_string
 
     url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    # browser.quit()
     browser.visit(url)
 
     soup = BeautifulSoup(browser.html,'html.parser')
@@ -82,6 +77,3 @@ def scrape_mars():
     output = {"news_title":article_title,"featured_img":featured_img,"news_p":p_text,"mars_facts":mars_html_string,"hemisphere_imgs_url":hemi_image_url}
 
     return output
-
-
-

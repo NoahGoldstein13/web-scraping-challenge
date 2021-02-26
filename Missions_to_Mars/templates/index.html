@@ -12,32 +12,33 @@
 <body>
   <div class="container-fluid">
     <div class="jumbotron text-center">
-      <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Get Data!</a></p>
+        <h1>Mission to Mars</h1>
+      <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data!</a></p>
     </div>
-    <img src="{{ mars.sloth_img }}" alt="Sloth">
     <h1>Latest Mars News</h1>
     <h3>{{mars.news_title}}</h3>
     <p>{{ mars.news_p }}</p>
     <div class="row">
         <div class="col-lg-8 col-sm-12">
             <h1>Featured Mars Image</h1>
-            <img src="{{mars.featured_img}}">
+            <img src="{{mars.featured_img}}" style="width:80%; height:50%;">
         </div>
         <div class="col-lg-4 col-sm-12">
+            <h1>Mars Facts</h1>
             <span>
                 {{mars.mars_facts|safe}}
             </span>
         </div>
     </div>
-    <div class="row">
-        <h1>Mars Hemisphere</h1>
+    <div class="row" style="padding:70px;">
+        <h1>Mars Hemispheres</h1>
         {% for hemi in mars.hemisphere_imgs_url %}
-        <div class="col-lg-6 col-xs-12">
+        <div class="col-lg-5 col-xs-12">
             <div class="thumbnail">
                 <img src="{{hemi.img_url}}">
-            </div>
-            <div class="caption">
-                <h4>{{hemi.title}}</h4>
+                <div class="caption">
+                    <h4>{{hemi.title}}</h4>
+                </div>
             </div>
         </div>
         {% endfor %}
